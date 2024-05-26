@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cors = require('cors');
 const port = 3000
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
@@ -13,6 +14,7 @@ mongoose.connect(process.env.MONGO_URL)
 .then(() =>console.log('Database connected'))
 .catch((err)=>console.log(err));
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
