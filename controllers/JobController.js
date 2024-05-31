@@ -36,13 +36,17 @@ module.exports = {
         }
     },
 
-    getJob: async (req, res) =>{
+    getJob: async (req, res) => {
         const jobId = req.params.id;
         try {
-            const job = await Job.findById({_id: jobId}, {createdAt: 0, updatedAt: 0, _v:0});
-            res.status(200).json(job)
+            const job = await Job.findById(jobId);
+            if (!job) {
+                return res.status(404).json({ status: false, message: 'Job not found' });
+            }
+            res.status(200).json(job);
         } catch (error) {
-            res.status(500).json(error);
+            console.error(`Error fetching job with ID ${jobId}:`, error);
+            res.status(500).json({ status: false, message: 'Server error' });
         }
     },
 
